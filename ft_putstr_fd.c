@@ -17,11 +17,21 @@ int	ft_putstr_fd(char *s, int fd)
 	int	n_printed;
 
 	n_printed = 0;
-	while (*s)
+	while (s[n_printed])
 	{
-		write(fd, s, 1);
-		s++;
+		write(fd, &s[n_printed], 1);
 		n_printed++;
 	}
 	return (n_printed);
 }
+
+/*
+#include <stdio.h>
+
+int	main()
+{
+	ft_putstr_fd("Hello!", 1);
+	puts("Hello!");
+	return (0);
+}
+*/

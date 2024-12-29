@@ -38,7 +38,7 @@ static int check_positive(int n, int fd, int details)
 	return (n_printed);
 }
 
-static int putnum(long n, int fd)
+static int my_putnum(long n, int fd)
 {
 	int	n_printed;
 
@@ -50,9 +50,8 @@ static int putnum(long n, int fd)
 	}
 	else if (n >= 10)
 	{
-		putnum(n / 10, fd);
-		print_dig(n % 10, fd);
-		n_printed++;
+		n_printed += my_putnum(n / 10, fd);
+		n_printed += my_putnum(n % 10, fd);
 	}
 	return (n_printed);
 }
@@ -65,7 +64,7 @@ int	ft_putnbr_fd(int n, int fd, char details)
 	n_printed += check_positive(n, fd, details);
 	if (n < 0)
 		n = -n;
-	n_printed += putnum((long)n, fd);
+	n_printed += my_putnum((long)n, fd);
 	return (n_printed);
 }
 
@@ -82,5 +81,8 @@ int	main()
 	printf(", %d\n", ft_putnbr_fd(1059, 1, '+'));
 	printf(", %d\n", ft_putnbr_fd(-1059, 1, '+'));
 	printf(", %d\n", ft_putnbr_fd(+1059, 1, '+'));
+	printf(", %d\n", ft_putnbr_fd(11, 1, '+'));
+	printf(", %d\n", ft_putnbr_fd(-11, 1, '+'));
+	printf(", %d\n", ft_putnbr_fd(+11, 1, '+'));
 	return(0);
 }

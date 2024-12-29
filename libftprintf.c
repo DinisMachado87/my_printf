@@ -12,9 +12,9 @@
 
 #include "libft.h"
 
-static int subcheck_type (const char *form_str)
+static int validate_type (const char *form_str)
 {
-	const char	*type_str = "cspdiuxX%+";
+	const char	*type_str = "cspdiuxX%+-";
 	int			i_type;
 
 	i_type = 0;
@@ -49,7 +49,7 @@ int	ft_printf(const char *form_str, ...)
 	va_start(args, form_str);
 	while (*form_str)
 	{
-		if (*form_str == '%' && subcheck_type(form_str))
+		if (*form_str == '%' && validate_type(form_str))
 		{
 			if (*++form_str == 'c')
 				n_printed += ft_putchar_fd(va_arg(args, int), 1);
@@ -69,8 +69,8 @@ int	ft_printf(const char *form_str, ...)
 
 int	main()
 {
-	char *test_str = "char %c,\n str %s, \n decimal %+d %d\n";
-	ft_printf("printed char: %d\n", ft_printf(test_str, 'a', "Hello", 1059, -1059));
-	printf("printed char: %d\n", printf(test_str, 'a', "Hello", 1059, -1059));
+	char *test_str = "char %c,\nstr %s,\ndecimal - %+d %-d %d\n";
+	ft_printf("printed char: %d\n", ft_printf(test_str, 'a', "Hello", 1059, -1059, -1059));
+	printf("printed char: %d\n", printf(test_str, 'a', "Hello", 1059, -1059, -1059));
 	return (0);
 }

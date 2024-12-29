@@ -56,15 +56,18 @@ int	ft_printf(const char *form_str, ...)
 			else if (*form_str == 's')
 				n_printed += ft_putstr_fd(va_arg(args, char *), 1);
 			else if ((details = is_d_format(form_str)))
+			{
+				if (details == '-' || details == '+')
+					form_str++;
 				n_printed += ft_putnbr_fd(va_arg(args, int), 1, details);
+			}
 		}
 		else
-			ft_putchar_fd(*form_str, 1);
-		form_str++ && n_printed++;
+			n_printed += ft_putchar_fd(*form_str, 1);
+		form_str++;
 	}
 	return (n_printed);
 }
-
 #include <stdio.h>
 
 int	main()
@@ -74,3 +77,5 @@ int	main()
 	printf("printed char: %d\n", printf(test_str, 'a', "Hello", 1059, -1059, -1059));
 	return (0);
 }
+/*
+*/

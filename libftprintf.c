@@ -27,14 +27,18 @@ static int validate_type (const char *form_str)
 	return (0);
 }
 
-static char is_d_format(const char *form_str)
+static char is_d_i_or_u(const char *form_str)
 {
-	if (*form_str == 'd')
+	if (*form_str == 'd' || *form_str == 'i')
 		return ('d');
-	else if (*form_str == '+' && form_str[1] == 'd')
+	else if (*form_str == '+' && (form_str[1] == 'd' || form_str[1] == 'i'))
 		return ('+');
-	else if (*form_str == '-' && form_str[1] == 'd')
+	else if (*form_str == '-' && (form_str[1] == 'd' || form_str[1] == 'i'))
 		return ('-');
+	else if (*form_str == 'u') 
+		return ('u');
+	else if	((*form_str == '-' || *form_str == '+') && form_str[1] == 'u')
+		return ('U');
 	else
 		return ('\0');
 }
@@ -55,12 +59,17 @@ int	ft_printf(const char *form_str, ...)
 				n_printed += ft_putchar_fd(va_arg(args, int), 1);
 			else if (*form_str == 's')
 				n_printed += ft_putstr_fd(va_arg(args, char *), 1);
-			else if ((details = is_d_format(form_str)))
+			else if ((details = is_d_i_or_u(form_str)))
 			{
-				if (details == '-' || details == '+')
+				if (details == '-' || details == '+' || details == 'U')
 					form_str++;
-				n_printed += ft_putnbr_fd(va_arg(args, int), 1, details);
+				if (*form_str == 'u')
+					n_printed += ft_putunbr_fd(va_arg(args, int), 1);
+				else
+					n_printed += ft_putnbr_fd(va_arg(args, int), 1, details);
 			}
+			else if (*form_str == '%')
+				n_printed += ft_putchar_fd('%', 1);
 		}
 		else
 			n_printed += ft_putchar_fd(*form_str, 1);
@@ -68,13 +77,35 @@ int	ft_printf(const char *form_str, ...)
 	}
 	return (n_printed);
 }
+
 #include <stdio.h>
 
 int	main()
 {
-	char *test_str = "char %c,\nstr %s,\ndecimal - %+d %-d %d\n";
-	ft_printf("printed char: %d\n", ft_printf(test_str, 'a', "Hello", 1059, -1059, -1059));
-	printf("printed char: %d\n", printf(test_str, 'a', "Hello", 1059, -1059, -1059));
+	char *test_str = "char %c char %%";
+	ft_printf(", printed char: %d\n", ft_printf(test_str, 'a'));
+	printf(", printed char: %d\n", printf(test_str, 'a'));
+	printf("\n");
+
+	char *test_str1 = "str %s";
+	ft_printf(", printed char: %d\n", ft_printf(test_str1, "Hello"));
+	printf(", printed char: %d\n", printf(test_str1, "Hello"));
+	printf("\n");
+
+	char *test_str2 = "decimal - %+d %-d %d";
+	ft_printf(", printed char: %d\n", ft_printf(test_str2, 1059, -1059, -1059));
+	printf(", printed char: %d\n", printf(test_str2, 1059, -1059, -1059));
+	printf("\n");
+
+	char *test_str3 = "int - %+i %-i %i";
+	ft_printf(", printed char: %d\n", ft_printf(test_str3, 1059, -1059, -1059));
+	printf(", printed char: %d\n", printf(test_str3, 1059, -1059, -1059));
+	printf("\n");
+
+	char *test_str4 = "un int - %+u %-u %u %u %u %u";
+	ft_printf(", printed char: %d\n", ft_printf(test_str4, 1059, -1059, -1059, 1059, -1059, -1059));
+	printf(", printed char: %d\n", printf(test_str4, 1059, -1059, -1059, 1059, -1059, -1059));
+	printf("\n");
 	return (0);
 }
 /*

@@ -12,7 +12,7 @@
 
 #include "libft.h"
 
-static void	print_dig(int n, int fd)
+static void	print_dig(long n, int fd)
 {
 	char	chr;
 
@@ -20,30 +20,67 @@ static void	print_dig(int n, int fd)
 	write(fd, &chr, 1);
 }
 
-int	ft_putnbr_fd(int n, int fd)
+static int check_positive(int n, int fd, int details)
 {
-	int n_printed;
+	int	n_printed;
 
-	n_printed = 1;
-	if (n == -2147483648)
+	n_printed = 0;
+	if ((n > 0 && details == '+') || (n < 0 && details == '-'))
 	{
-		write(fd, "-2", 2);
-		ft_putnbr_fd(147483648, fd);
-		n_printed += 2;
-	}
-	else if (n < 0)
-	{
-		write(fd, "-", 1);
-		ft_putnbr_fd(-n, fd);
+		ft_putchar_fd('+', fd);
 		n_printed++;
 	}
-	else if (n <= 9)
+	else if ((n < 0 && details != '-') || (n > 0 && details == '-'))
+	{
+		ft_putchar_fd('-', fd);
+		n_printed++;
+	}
+	return (n_printed);
+}
+
+static int putnum(long n, int fd)
+{
+	int	n_printed;
+
+	n_printed = 0;
+	if (n <= 9)
+	{
 		print_dig(n, fd);
+		n_printed++;
+	}
 	else if (n >= 10)
 	{
-		ft_putnbr_fd(n / 10, fd);
+		putnum(n / 10, fd);
 		print_dig(n % 10, fd);
 		n_printed++;
 	}
 	return (n_printed);
+}
+
+int	ft_putnbr_fd(int n, int fd, char details)
+{
+	int 	n_printed;
+
+	n_printed = 0;
+	n_printed += check_positive(n, fd, details);
+	if (n < 0)
+		n = -n;
+	n_printed += putnum((long)n, fd);
+	return (n_printed);
+}
+
+#include <stdio.h>
+
+int	main()
+{
+	printf(", %d\n", ft_putnbr_fd(1059, 1, 'd'));
+	printf(", %d\n", ft_putnbr_fd(-1059, 1, 'd'));
+	printf(", %d\n", ft_putnbr_fd(+1059, 1, 'd'));
+	printf(", %d\n", ft_putnbr_fd(1059, 1, '-'));
+	printf(", %d\n", ft_putnbr_fd(-1059, 1, '-'));
+	printf(", %d\n", ft_putnbr_fd(+1059, 1, '-'));
+	printf(", %d\n", ft_putnbr_fd(1059, 1, '+'));
+	printf(", %d\n", ft_putnbr_fd(-1059, 1, '+'));
+	printf(", %d\n", ft_putnbr_fd(+1059, 1, '+'));
+	return(0);
 }

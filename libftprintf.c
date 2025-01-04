@@ -59,15 +59,21 @@ int	ft_printf(const char *form_str, ...)
 				n_printed += ft_putchar_fd(va_arg(args, int), 1);
 			else if (*form_str == 's')
 				n_printed += ft_putstr_fd(va_arg(args, char *), 1);
+			else if (*form_str == 'p')
+				n_printed += ft_putptr(va_arg(args, uintptr_t), "0123456789ABCDEF", 1);
 			else if ((details = is_d_i_or_u(form_str)))
 			{
 				if (details == '-' || details == '+' || details == 'U')
 					form_str++;
 				if (*form_str == 'u')
-					n_printed += ft_putunbr_fd(va_arg(args, int), 1);
+					n_printed += ft_putunbr_fd(va_arg(args, unsigned int), 1);
 				else
 					n_printed += ft_putnbr_fd(va_arg(args, int), 1, details);
 			}
+			else if (*form_str == 'x')
+				n_printed += ft_putbase(va_arg(args, unsigned int), "0123456789abcdef", 1);
+			else if (*form_str == 'X')
+				n_printed += ft_putbase(va_arg(args, unsigned int), "0123456789ABCDEF", 1);
 			else if (*form_str == '%')
 				n_printed += ft_putchar_fd('%', 1);
 		}
@@ -106,6 +112,22 @@ int	main()
 	ft_printf(", printed char: %d\n", ft_printf(test_str4, 1059, -1059, -1059, 1059, -1059, -1059));
 	printf(", printed char: %d\n", printf(test_str4, 1059, -1059, -1059, 1059, -1059, -1059));
 	printf("\n");
+	
+	char *test_str5 = "HEX cap - %X %X %X";
+	ft_printf(", printed char: %d\n", ft_printf(test_str5, 1059, -1059, +1059));
+	printf(", printed char: %d\n", printf(test_str5, 1059, -1059, +1059));
+	printf("\n");
+	
+	char *test_str6 = "HEX small - %x %x %x";
+	ft_printf(", printed char: %d\n", ft_printf(test_str6, 1059, -1059, +1059));
+	printf(", printed char: %d\n", printf(test_str6, 1059, -1059, +1059));
+	printf("\n");
+
+	char *test_str7 = "PTR  - %p %p %p";
+	ft_printf(", printed char: %d\n", ft_printf(test_str7, test_str7, test_str7, test_str7));
+	printf(", printed char: %d\n", printf(test_str7, test_str7, test_str7, test_str7));
+	printf("\n");
+	
 	return (0);
 }
 /*

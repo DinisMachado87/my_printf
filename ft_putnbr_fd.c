@@ -6,7 +6,7 @@
 /*   By: dimachad <dimachad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 19:30:40 by dimachad          #+#    #+#             */
-/*   Updated: 2025/01/06 20:22:04 by dimachad         ###   ########.fr       */
+/*   Updated: 2025/01/08 21:11:53 by dimachad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,15 @@ static int	my_putnum(long n, int fd)
 
 int	ft_putnbr_fd(int n, int fd, char details)
 {
-	int	n_printed;
+	int		n_printed;
+	long	num;
 
+	num = (long)n;
 	n_printed = 0;
-	n_printed += check_positive((long)n, fd, details);
-	if (n < 0)
-		n = -n;
-	n_printed += my_putnum((long)n, fd);
+	n_printed += check_positive(n, fd, details);
+	if (num < 0)
+		num = -num;
+	n_printed += my_putnum(num, fd);
 	return (n_printed);
 }
 
@@ -72,12 +74,10 @@ int	ft_putunbr_fd(unsigned int n, int fd)
 {
 	int	n_printed;
 
-	n_printed = 0;
-	n_printed += my_putnum((long)n, fd);
+	n_printed = my_putnum((long)n, fd);
 	return (n_printed);
 }
 /*
-#include <stdio.h>
 
 int	main()
 {

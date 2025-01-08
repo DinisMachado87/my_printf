@@ -6,7 +6,7 @@
 /*   By: dimachad <dimachad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/29 22:28:12 by dimachad          #+#    #+#             */
-/*   Updated: 2025/01/08 14:42:11 by dimachad         ###   ########.fr       */
+/*   Updated: 2025/01/08 20:50:26 by dimachad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ int	ft_putptr(uintptr_t n, int fd, char form_str)
 	int	n_printed;
 
 	n_printed = 0;
+	if (!n)
+		return (ft_putstr_fd("(nil)", fd));
 	n_printed += ft_putstr_fd("0x", 1);
 	n_printed += ft_putbase(n, fd, form_str);
 	return (n_printed);

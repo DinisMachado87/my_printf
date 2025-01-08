@@ -6,28 +6,28 @@
 /*   By: dimachad <dimachad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/29 22:28:12 by dimachad          #+#    #+#             */
-/*   Updated: 2025/01/06 21:04:58 by dimachad         ###   ########.fr       */
+/*   Updated: 2025/01/08 14:42:11 by dimachad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static int	core_putbase(long num, char *base, int fd)
+static int	core_putbase(uintptr_t n, char *base, int fd)
 {
 	int		n_printed;
 	size_t	base_len;
 
 	n_printed = 0;
 	base_len = ft_strlen(base);
-	if (num < (long)base_len)
+	if (n < (uintptr_t)base_len)
 	{
-		write(fd, &base[num], 1);
+		write(fd, &base[n], 1);
 		n_printed++;
 	}
 	else
 	{
-		n_printed += core_putbase((num / base_len), base, fd);
-		n_printed += core_putbase((num % base_len), base, fd);
+		n_printed += core_putbase((n / base_len), base, fd);
+		n_printed += core_putbase((n % base_len), base, fd);
 	}
 	return (n_printed);
 }
@@ -45,7 +45,6 @@ int	ft_putptr(uintptr_t n, int fd, char form_str)
 int	ft_putbase(uintptr_t n, int fd, char form_str)
 {
 	int		n_printed;
-	long	num;
 	char	*base;
 
 	n_printed = 0;
@@ -53,8 +52,7 @@ int	ft_putbase(uintptr_t n, int fd, char form_str)
 		base = "0123456789ABCDEF"; 
 	else
 		base = "0123456789abcdef";
-	num = (long)n;
-	n_printed += core_putbase(num, base, fd);
+	n_printed += core_putbase(n, base, fd);
 	return (n_printed);
 }
 /*

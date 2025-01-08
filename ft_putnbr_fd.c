@@ -6,11 +6,11 @@
 /*   By: dimachad <dimachad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 19:30:40 by dimachad          #+#    #+#             */
-/*   Updated: 2024/12/16 18:54:43 by dimachad         ###   ########.fr       */
+/*   Updated: 2025/01/06 20:22:04 by dimachad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_printf.h"
 
 static void	print_dig(long n, int fd)
 {
@@ -20,7 +20,7 @@ static void	print_dig(long n, int fd)
 	write(fd, &chr, 1);
 }
 
-static int check_positive(long n, int fd, int details)
+static int	check_positive(long n, int fd, int details)
 {
 	int	n_printed;
 
@@ -38,7 +38,7 @@ static int check_positive(long n, int fd, int details)
 	return (n_printed);
 }
 
-static int my_putnum(long n, int fd)
+static int	my_putnum(long n, int fd)
 {
 	int	n_printed;
 
@@ -58,7 +58,7 @@ static int my_putnum(long n, int fd)
 
 int	ft_putnbr_fd(int n, int fd, char details)
 {
-	int 	n_printed;
+	int	n_printed;
 
 	n_printed = 0;
 	n_printed += check_positive((long)n, fd, details);
@@ -70,14 +70,12 @@ int	ft_putnbr_fd(int n, int fd, char details)
 
 int	ft_putunbr_fd(unsigned int n, int fd)
 {
-	int 	n_printed;
+	int	n_printed;
 
 	n_printed = 0;
 	n_printed += my_putnum((long)n, fd);
 	return (n_printed);
 }
-
-
 /*
 #include <stdio.h>
 

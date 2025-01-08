@@ -6,11 +6,11 @@
 /*   By: dimachad <dimachad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/29 22:28:12 by dimachad          #+#    #+#             */
-/*   Updated: 2024/12/29 22:28:13 by dimachad         ###   ########.fr       */
+/*   Updated: 2025/01/06 21:04:58 by dimachad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_printf.h"
 
 static int	core_putbase(long num, char *base, int fd)
 {
@@ -32,22 +32,27 @@ static int	core_putbase(long num, char *base, int fd)
 	return (n_printed);
 }
 
-int ft_putptr(uintptr_t n, char *base, int fd)
+int	ft_putptr(uintptr_t n, int fd, char form_str)
 {
 	int	n_printed;
 
 	n_printed = 0;
 	n_printed += ft_putstr_fd("0x", 1);
-	n_printed += ft_putbase(n, base, fd);
+	n_printed += ft_putbase(n, fd, form_str);
 	return (n_printed);
 }
 
-int	ft_putbase(uintptr_t n, char *base, int fd)
+int	ft_putbase(uintptr_t n, int fd, char form_str)
 {
 	int		n_printed;
 	long	num;
+	char	*base;
 
 	n_printed = 0;
+	if (form_str == 'X')
+		base = "0123456789ABCDEF"; 
+	else
+		base = "0123456789abcdef";
 	num = (long)n;
 	n_printed += core_putbase(num, base, fd);
 	return (n_printed);

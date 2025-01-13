@@ -6,7 +6,7 @@
 #    By: dimachad <dimachad@student.42berlin.d      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/06 13:05:13 by dimachad          #+#    #+#              #
-#    Updated: 2025/01/06 23:51:14 by dimachad         ###   ########.fr        #
+#    Updated: 2025/01/13 18:17:48 by dimachad         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ all:		$(NAME)
 $(NAME):	$(OBJS)
 			ar rcs $(NAME) $(OBJS)
 
-%.o:		%.c
+%.o:		%.c ft_printf.h
 			$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
 
 clean:

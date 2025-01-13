@@ -6,7 +6,7 @@
 /*   By: dimachad <dimachad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 17:27:15 by dimachad          #+#    #+#             */
-/*   Updated: 2025/01/06 22:04:02 by dimachad         ###   ########.fr       */
+/*   Updated: 2025/01/13 17:02:17 by dimachad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,5 +93,6 @@ int	ft_printf(const char *form_str, ...)
 			n_printed += ft_putchar_fd(*form_str, 1);
 		form_str++;
 	}
+	va_end(args);
 	return (n_printed);
 }
